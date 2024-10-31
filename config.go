@@ -24,6 +24,7 @@ type Config struct {
 	Token     string
 	DlSession string
 	Proxy     string
+	GPToken   string
 }
 
 func initConfig() *Config {
@@ -31,6 +32,7 @@ func initConfig() *Config {
 		IP:   "0.0.0.0",
 		Port: 1188,
 	}
+
 
 	// IP flag
 	if ip, ok := os.LookupEnv("IP"); ok && ip != "" {
@@ -61,6 +63,15 @@ func initConfig() *Config {
 			cfg.Token = token
 		}
 	}
+
+		// google token flag
+	flag.StringVar(&cfg.GPToken, "google token", "", "set the access google token for /translate endpoint")
+	if cfg.GPToken == "" {
+		if gp_token, ok := os.LookupEnv("GP_TOKEN"); ok {
+			cfg.GPToken = gp_token
+		}
+	}
+	
 
 	// HTTP Proxy flag
 	flag.StringVar(&cfg.Proxy, "proxy", "", "set the proxy URL for HTTP requests")

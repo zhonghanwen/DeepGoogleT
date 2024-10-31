@@ -222,12 +222,14 @@ func main() {
 	// Free API endpoint, Consistent with the official API format
 	r.POST("/v2/translate", authMiddleware(cfg), func(c *gin.Context) {
 		proxyURL := cfg.Proxy
-
+        googleToken := cfg.GPToken
 		var translateText string
 		var targetLang string
 
 		translateText = c.PostForm("text")
 		targetLang = c.PostForm("target_lang")
+
+
 
 		if translateText == "" || targetLang == "" {
 			var jsonData struct {
@@ -247,11 +249,28 @@ func main() {
 			targetLang = jsonData.TargetLang
 		}
 
-		result, err := translate.TranslateByDeepLX("", targetLang, translateText, "", proxyURL)
-		if err != nil {
-			log.Fatalf("Translation failed: %s", err)
+		// fmt.Printf("translateText:%v\n", translateText)
+		// fmt.Printf("targetLang :%v\n", targetLang)
+
+		if targetLang == "en" || targetLang == "EN" {
+			c.JSON(http.StatusOK, gin.H{
+				"translations": []map[string]interface{}{
+					{
+						"detected_source_language": "en",
+						"text":                     translateText,
+					},
+				},
+			})
+			return
 		}
 
+		result, err := translate.TranslateByGoogle("en", targetLang, []string{translateText}, googleToken, proxyURL)
+		if err != nil {
+			log.Printf("Translation failed: %v", err)
+			// return
+		}
+		// 打印翻译结果
+		// fmt.Println("Translation:", result.Data)
 		if result.Code == http.StatusOK {
 			c.JSON(http.StatusOK, gin.H{
 				"translations": []map[string]interface{}{
