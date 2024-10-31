@@ -6,5 +6,6 @@ RUN CGO_ENABLED=0 go build -a -installsuffix cgo -o deepgooglet .
 
 FROM alpine:latest
 WORKDIR /app
-COPY --from=builder /go/src/github.com/zhonghanwen/DeepGoogleT /app/deepgooglet
+COPY --from=builder /go/src/github.com/zhonghanwen/DeepGoogleT/deepgooglet /app/deepgooglet
+EXPOSE 1188
 CMD ["/app/deepgooglet"]
