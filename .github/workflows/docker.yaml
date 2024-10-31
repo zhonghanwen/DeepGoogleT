@@ -8,7 +8,7 @@ on:
       - 'v*'
 
 env:
-  DOCKER_IMAGE_NAME: zhonghanwen/deepGoogleT
+  DOCKER_IMAGE_NAME: zhonghanwen1001/deepGoogleT
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
