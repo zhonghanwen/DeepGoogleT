@@ -9,11 +9,9 @@ on:
 
 env:
   DOCKER_IMAGE_NAME: zhonghanwen/deepGoogleT
-  # GHCR_IMAGE_NAME: ${{ github.repository }}
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-  # GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # GHCR_USERNAME: ${{ github.repository_owner }}
+
 
 jobs:
   docker_build:
